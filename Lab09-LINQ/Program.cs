@@ -65,23 +65,25 @@ namespace Lab09_LINQ
         // Rewrite the queries from above and consolidate all into one single query.
         static public void ConsolidateAllIntoOneSingleQuery(FeatureCollection fc)
         {
-            var query = (from Feature in fc.Features
-                         where Feature.Properties.Neighborhood != ""
-                         select Feature.Properties.Neighborhood).Distinct();
-            int count = 1;
-            foreach (var item in query)
-            {
-                Console.WriteLine($"{count}. {item}");
-                count++;
-            }
-        }
-        // Rewrite at least one of these questions only using the opposing method
-        static void LINQ(FeatureCollection fc)
-        {
             var query = fc.Features
                             .Select(x => new { x.Properties.Neighborhood })
                             .Where(x => x.Neighborhood != "")
                             .Distinct();
+            int count = 1;
+
+            foreach (var item in query)
+            {
+                Console.WriteLine($"{count}. {item.Neighborhood}");
+                count++;
+            }
+        }
+        // Rewrite at least one of these questions only using the opposing method
+        // Filter out all the neighborhoods that do not have any names (Final Total: 143)
+        static void LINQ(FeatureCollection fc)
+        {
+            var query = fc.Features
+                            .Select(x => new { x.Properties.Neighborhood })
+                            .Where(x => x.Neighborhood != "");          
             int count = 1;
 
             foreach (var item in query)
